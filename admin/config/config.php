@@ -1,4 +1,3 @@
-
 <!-- database connection -->
 
 <?php
@@ -9,8 +8,11 @@ $password = "";
 $dbname = "vrs";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
-if($conn->connect_error){
-    die("Connection failed: " . $conn->connect_error);
-}
+// if ($conn) {
+//     echo "Database is connected successfully";
+// } else {
+
+//     echo "Database is not connected, please check the connection";
+// }
 
 ?>

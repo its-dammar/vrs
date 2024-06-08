@@ -128,7 +128,7 @@
 									<li>
 										<hr class="dropdown-divider">
 									</li>
-									<li><a class="dropdown-item" href="login.html">Log Out</a></li>
+									<li><a class="dropdown-item" href="../auth//logout-process.php">Log Out</a></li>
 								</ul>
 							</div><!--//app-user-dropdown-->
 						</div><!--//app-utilities-->

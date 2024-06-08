@@ -38,34 +38,43 @@
                     <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
                         <div class="app-card app-card-orders-table shadow-sm mb-5">
                             <div class="app-card-body p-5">
-                                <form>
+                                <form class="auth-form auth-signup-form" action="#" method="POST" enctype="multipart/form-data">
                                     <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                                            <label for="exampleInputName" class="form-label">Name</label>
-                                            <input type="text" class="form-control" id="exampleInputName" aria-describedby="emailHelp">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 email mb-3">
+                                            <label class="sr-only" for="signup-email">Your Name</label>
+                                            <input id="signup-name" name="name" type="text" class="form-control signup-name" placeholder="Full name" required="required">
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                                            <label for="exampleInputName" class="form-label">Username</label>
-                                            <input type="text" class="form-control" id="exampleInputName" aria-describedby="emailHelp">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 email mb-3">
+                                            <label class="sr-only" for="signup-email">Username</label>
+                                            <input id="signup-name" name="name" type="text" class="form-control signup-name" placeholder="Full name" required="required">
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                                            <label for="exampleInputName" class="form-label">Liscence No.</label>
-                                            <input type="text" class="form-control" id="exampleInputName" aria-describedby="emailHelp">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 email mb-3">
+                                            <label class="sr-only" for="signup-email">Liscense No.</label>
+                                            <input id="signup-name" name="liscense_no" type="text" class="form-control signup-name" placeholder="Full name" required="required">
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                                            <label for="exampleInputName" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="exampleInputName" aria-describedby="emailHelp">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 email mb-3">
+                                            <label class="sr-only" for="signup-email">Your Email</label>
+                                            <input id="signup-email" name="email" type="email" class="form-control signup-email" placeholder="Email" required="required">
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                                            <label for="exampleInputPassword1" class="form-label">Password</label>
-                                            <input type="password" class="form-control" id="exampleInputPassword1">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 password mb-3">
+                                            <label class="sr-only" for="signup-password">Password</label>
+                                            <input id="signup-password" name="password" type="password" class="form-control signup-password" placeholder="Create a password" required="required">
                                         </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <button type="submit" class="btn btn-primary btn-sm text-white">Submit</button>
-                                    </div>
+                                    <div class="extra mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="RememberPassword">
+                                            <label class="form-check-label" for="RememberPassword">
+                                                I agree to vrs's <a href="#" class="app-link">Terms of Service</a> and <a href="#" class="app-link">Privacy Policy</a>.
+                                            </label>
+                                        </div>
+                                    </div><!--//extra-->
 
-                                </form>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">Sign Up</button>
+                                    </div>
+                                </form><!--//auth-form-->
+
                             </div><!--//app-card-body-->
                         </div><!--//app-card-->
                         <nav class="app-pagination">
