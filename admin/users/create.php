@@ -38,41 +38,93 @@
                     <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
                         <div class="app-card app-card-orders-table shadow-sm mb-5">
                             <div class="app-card-body p-5">
+                                <?php
+
+
+                                if (isset($_GET['sms'])) {
+                                    $sms = $_GET['sms'];
+                                    if ($sms == 'error') {
+                                        echo "<div class='alert alert-danger'>Something went wrong, please try again</div>";
+                                        echo "<meta http-equiv=\"refresh\" content=\"1;url=create.php\">";
+                                    }
+                                    if ($sms == 'duplicate') {
+                                        echo "<div class='alert alert-success'>Username or email or liscence No is already exist</div>";
+                                        echo "<meta http-equiv=\"refresh\" content=\"1;url=create.php\">";
+                                    }
+                                    if ($sms == 'empty') {
+                                        echo "<div class='alert alert-success'>Enter all information</div>";
+                                        echo "<meta http-equiv=\"refresh\" content=\"1;url=create.php\">";
+                                    }
+                                }
+
+
+                                if (isset($_POST['register'])) {
+                                    $name = $_POST['name'];
+                                    $username = $_POST['username'];
+                                    $email = $_POST['email'];
+                                    $password = password_hash($_POST['password'], PASSWORD_BCRYPT); // Encrypt password
+                                    $liscence_no = $_POST['liscence_no'];
+
+                                    if ($name != '' && $username != '' && $email != '' && $password != '' && $liscence_no != '' ){
+                                        // Check for duplicate username or email
+                                        $check_sql = "SELECT * FROM users WHERE username='$username' OR email='$email' OR liscence_no='$liscence_no'";
+                                        $check_result = $conn->query($check_sql);
+
+                                        if ($check_result->num_rows > 0) {
+                                            // Redirect to signup page with an error message
+                                            echo "<meta http-equiv=\"refresh\" content=\"0;URL=create.php?sms=duplicate\">";
+
+                                        } else {
+                                            // SQL to insert data
+                                            $sql = "INSERT INTO users (name, username, email, password, liscence_no) VALUES ('$name', '$username', '$email', '$password', '$liscence_no')";
+                                            $result = $conn->query($sql);
+
+                                            if ($result === TRUE) {
+                                                // Redirect to index page with a success message
+                                                echo "<meta http-equiv=\"refresh\" content=\"0;url=index.php?sms=registered\">";
+
+                                            } else {
+                                                // Redirect to signup page with an error message
+                                                echo "<meta http-equiv=\"refresh\" content=\"0;url=create.php?sms=error\">";
+
+                                            }
+                                        }
+                                    } else {
+                                        // Redirect to create page with an error message
+                                        echo "<meta http-equiv=\"refresh\" content=\"0;url=create.php?sms=empty\">";
+
+                                    }
+
+                                    $conn->close();
+                                }
+                                ?>
                                 <form class="auth-form auth-signup-form" action="#" method="POST" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 email mb-3">
                                             <label class="sr-only" for="signup-email">Your Name</label>
-                                            <input id="signup-name" name="name" type="text" class="form-control signup-name" placeholder="Full name" required="required">
+                                            <input id="signup-name" name="name" type="text" class="form-control signup-name" placeholder="Full name">
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 email mb-3">
                                             <label class="sr-only" for="signup-email">Username</label>
-                                            <input id="signup-name" name="name" type="text" class="form-control signup-name" placeholder="Full name" required="required">
+                                            <input id="signup-name" name="username" type="text" class="form-control signup-name" placeholder="Username">
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 email mb-3">
                                             <label class="sr-only" for="signup-email">Liscense No.</label>
-                                            <input id="signup-name" name="liscense_no" type="text" class="form-control signup-name" placeholder="Full name" required="required">
+                                            <input id="signup-name" name="liscence_no" type="text" class="form-control signup-name" placeholder="liscence_no">
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 email mb-3">
                                             <label class="sr-only" for="signup-email">Your Email</label>
-                                            <input id="signup-email" name="email" type="email" class="form-control signup-email" placeholder="Email" required="required">
+                                            <input id="signup-email" name="email" type="email" class="form-control signup-email" placeholder="Email">
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 password mb-3">
                                             <label class="sr-only" for="signup-password">Password</label>
-                                            <input id="signup-password" name="password" type="password" class="form-control signup-password" placeholder="Create a password" required="required">
+                                            <input id="signup-password" name="password" type="password" class="form-control signup-password" placeholder="Create a password">
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" name="register" class="btn app-btn-primary btn-sm theme-btn mx-auto">Sign Up</button>
                                         </div>
                                     </div>
-                                    <div class="extra mb-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="RememberPassword">
-                                            <label class="form-check-label" for="RememberPassword">
-                                                I agree to vrs's <a href="#" class="app-link">Terms of Service</a> and <a href="#" class="app-link">Privacy Policy</a>.
-                                            </label>
-                                        </div>
-                                    </div><!--//extra-->
 
-                                    <div class="text-center">
-                                        <button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">Sign Up</button>
-                                    </div>
                                 </form><!--//auth-form-->
 
                             </div><!--//app-card-body-->

@@ -42,6 +42,10 @@
 							echo "<div class='alert alert-success'>Username or email or liscence No is already exist</div>";
 							header('Refresh: 1; url=signup.php');
 						}
+						if ($sms == 'empty') {
+							echo "<div class='alert alert-success'>Enter all information</div>";
+							header('Refresh: 1; url=signup.php');
+						}
 						
 					}
 
