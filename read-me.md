@@ -19,10 +19,8 @@ hero
 id | title | description  | status | created_at | updated_at
 
 about 
-id | title | description  | status | created_at | updated_at
+id | title | img |description  | status | created_at | updated_at
 
-cars
-id | image | car_name | status | created_at | updated_at
 
 whychooseus
 id | title | description  | status | created_at | updated_at
@@ -35,4 +33,7 @@ id | car_id | price | discount | total |  status | created_at | updated_at
 
 booking
 id | user_id | booked_time | return_time | p_voucher | payment_status |  status | created_at | updated_at
+
+cars
+id | user_id| image | vahicle_name | reg_no | description | status | created_at | updated_at
 

@@ -39,25 +39,6 @@
                         <div class="app-card app-card-orders-table shadow-sm mb-5">
                             <div class="app-card-body p-5">
                                 <?php
-
-
-                                if (isset($_GET['sms'])) {
-                                    $sms = $_GET['sms'];
-                                    if ($sms == 'error') {
-                                        echo "<div class='alert alert-danger'>Something went wrong, please try again</div>";
-                                        echo "<meta http-equiv=\"refresh\" content=\"1;url=create.php\">";
-                                    }
-                                    if ($sms == 'duplicate') {
-                                        echo "<div class='alert alert-success'>Username or email or liscence No is already exist</div>";
-                                        echo "<meta http-equiv=\"refresh\" content=\"1;url=create.php\">";
-                                    }
-                                    if ($sms == 'empty') {
-                                        echo "<div class='alert alert-success'>Enter all information</div>";
-                                        echo "<meta http-equiv=\"refresh\" content=\"1;url=create.php\">";
-                                    }
-                                }
-
-
                                 if (isset($_POST['register'])) {
                                     $name = $_POST['name'];
                                     $username = $_POST['username'];
@@ -65,14 +46,20 @@
                                     $password = password_hash($_POST['password'], PASSWORD_BCRYPT); // Encrypt password
                                     $liscence_no = $_POST['liscence_no'];
 
-                                    if ($name != '' && $username != '' && $email != '' && $password != '' && $liscence_no != '' ){
+                                    if ($name != '' && $username != '' && $email != '' && $password != '' && $liscence_no != '') {
                                         // Check for duplicate username or email
                                         $check_sql = "SELECT * FROM users WHERE username='$username' OR email='$email' OR liscence_no='$liscence_no'";
                                         $check_result = $conn->query($check_sql);
 
                                         if ($check_result->num_rows > 0) {
                                             // Redirect to signup page with an error message
-                                            echo "<meta http-equiv=\"refresh\" content=\"0;URL=create.php?sms=duplicate\">";
+                                ?>
+                                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                                <strong>Warning!</strong> Username or email or liscence No is already exist
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+                                            <?php
+                                            echo "<meta http-equiv=\"refresh\" content=\"0;url=create.php?sms=duplicate\">";
 
                                         } else {
                                             // SQL to insert data
@@ -81,18 +68,33 @@
 
                                             if ($result === TRUE) {
                                                 // Redirect to index page with a success message
+                                            ?>
+                                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                                    <strong>Success!</strong> User registered successfully
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            <?php
                                                 echo "<meta http-equiv=\"refresh\" content=\"0;url=index.php?sms=registered\">";
-
                                             } else {
                                                 // Redirect to signup page with an error message
+                                            ?>
+                                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                                    <strong>Warning!</strong> Something went wrong, please try again
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                        <?php
                                                 echo "<meta http-equiv=\"refresh\" content=\"0;url=create.php?sms=error\">";
-
                                             }
                                         }
                                     } else {
                                         // Redirect to create page with an error message
+                                        ?>
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <strong>Warning!</strong> Enter all information required
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                <?php
                                         echo "<meta http-equiv=\"refresh\" content=\"0;url=create.php?sms=empty\">";
-
                                     }
 
                                     $conn->close();
@@ -145,138 +147,7 @@
 
                     </div><!--//tab-pane-->
 
-                    <div class="tab-pane fade" id="orders-paid" role="tabpanel" aria-labelledby="orders-paid-tab">
-                        <div class="app-card app-card-orders-table mb-5">
-                            <div class="app-card-body">
-                                <div class="table-responsive">
-
-                                    <table class="table mb-0 text-left">
-                                        <thead>
-                                            <tr>
-                                                <th class="cell">Order</th>
-                                                <th class="cell">Product</th>
-                                                <th class="cell">Customer</th>
-                                                <th class="cell">Date</th>
-                                                <th class="cell">Status</th>
-                                                <th class="cell">Total</th>
-                                                <th class="cell"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="cell">#15346</td>
-                                                <td class="cell"><span class="truncate">Lorem ipsum dolor sit amet eget volutpat erat</span></td>
-                                                <td class="cell">John Sanders</td>
-                                                <td class="cell"><span>17 Oct</span><span class="note">2:16 PM</span></td>
-                                                <td class="cell"><span class="badge bg-success">Paid</span></td>
-                                                <td class="cell">$259.35</td>
-                                                <td class="cell"><a class="btn-sm app-btn-secondary" href="#">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="cell">#15344</td>
-                                                <td class="cell"><span class="truncate">Pellentesque diam imperdiet</span></td>
-                                                <td class="cell">Teresa Holland</td>
-                                                <td class="cell"><span class="cell-data">16 Oct</span><span class="note">01:16 AM</span></td>
-                                                <td class="cell"><span class="badge bg-success">Paid</span></td>
-                                                <td class="cell">$123.00</td>
-                                                <td class="cell"><a class="btn-sm app-btn-secondary" href="#">View</a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="cell">#15343</td>
-                                                <td class="cell"><span class="truncate">Vestibulum a accumsan lectus sed mollis ipsum</span></td>
-                                                <td class="cell">Jayden Massey</td>
-                                                <td class="cell"><span class="cell-data">15 Oct</span><span class="note">8:07 PM</span></td>
-                                                <td class="cell"><span class="badge bg-success">Paid</span></td>
-                                                <td class="cell">$199.00</td>
-                                                <td class="cell"><a class="btn-sm app-btn-secondary" href="#">View</a></td>
-                                            </tr>
-
-
-                                            <tr>
-                                                <td class="cell">#15341</td>
-                                                <td class="cell"><span class="truncate">Morbi vulputate lacinia neque et sollicitudin</span></td>
-                                                <td class="cell">Raymond Atkins</td>
-                                                <td class="cell"><span class="cell-data">11 Oct</span><span class="note">11:18 AM</span></td>
-                                                <td class="cell"><span class="badge bg-success">Paid</span></td>
-                                                <td class="cell">$678.26</td>
-                                                <td class="cell"><a class="btn-sm app-btn-secondary" href="#">View</a></td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div><!--//table-responsive-->
-                            </div><!--//app-card-body-->
-                        </div><!--//app-card-->
-                    </div><!--//tab-pane-->
-
-                    <div class="tab-pane fade" id="orders-pending" role="tabpanel" aria-labelledby="orders-pending-tab">
-                        <div class="app-card app-card-orders-table mb-5">
-                            <div class="app-card-body">
-                                <div class="table-responsive">
-                                    <table class="table mb-0 text-left">
-                                        <thead>
-                                            <tr>
-                                                <th class="cell">Order</th>
-                                                <th class="cell">Product</th>
-                                                <th class="cell">Customer</th>
-                                                <th class="cell">Date</th>
-                                                <th class="cell">Status</th>
-                                                <th class="cell">Total</th>
-                                                <th class="cell"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="cell">#15345</td>
-                                                <td class="cell"><span class="truncate">Consectetur adipiscing elit</span></td>
-                                                <td class="cell">Dylan Ambrose</td>
-                                                <td class="cell"><span class="cell-data">16 Oct</span><span class="note">03:16 AM</span></td>
-                                                <td class="cell"><span class="badge bg-warning">Pending</span></td>
-                                                <td class="cell">$96.20</td>
-                                                <td class="cell"><a class="btn-sm app-btn-secondary" href="#">View</a></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div><!--//table-responsive-->
-                            </div><!--//app-card-body-->
-                        </div><!--//app-card-->
-                    </div><!--//tab-pane-->
-                    <div class="tab-pane fade" id="orders-cancelled" role="tabpanel" aria-labelledby="orders-cancelled-tab">
-                        <div class="app-card app-card-orders-table mb-5">
-                            <div class="app-card-body">
-                                <div class="table-responsive">
-                                    <table class="table mb-0 text-left">
-                                        <thead>
-                                            <tr>
-                                                <th class="cell">Order</th>
-                                                <th class="cell">Product</th>
-                                                <th class="cell">Customer</th>
-                                                <th class="cell">Date</th>
-                                                <th class="cell">Status</th>
-                                                <th class="cell">Total</th>
-                                                <th class="cell"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            <tr>
-                                                <td class="cell">#15342</td>
-                                                <td class="cell"><span class="truncate">Justo feugiat neque</span></td>
-                                                <td class="cell">Reina Brooks</td>
-                                                <td class="cell"><span class="cell-data">12 Oct</span><span class="note">04:23 PM</span></td>
-                                                <td class="cell"><span class="badge bg-danger">Cancelled</span></td>
-                                                <td class="cell">$59.00</td>
-                                                <td class="cell"><a class="btn-sm app-btn-secondary" href="#">View</a></td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div><!--//table-responsive-->
-                            </div><!--//app-card-body-->
-                        </div><!--//app-card-->
-                    </div><!--//tab-pane-->
+                   
                 </div><!--//tab-content-->
 
 

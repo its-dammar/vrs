@@ -13,7 +13,7 @@
 
                 <div class="row g-3 mb-4 align-items-center justify-content-between">
                     <div class="col-auto">
-                        <h1 class="app-page-title mb-0">Orders</h1>
+                        <h1 class="app-page-title mb-0">Manage Vehicles</h1>
                     </div>
                     <div class="col-auto">
                         <div class="page-utilities">
@@ -29,11 +29,37 @@
                                     </form>
 
                                 </div><!--//col-->
+                                <div class="col-auto">
+
+                                    <select class="form-select w-auto">
+                                        <option selected value="option-1">All</option>
+                                        <option value="option-2">This week</option>
+                                        <option value="option-3">This month</option>
+                                        <option value="option-4">Last 3 months</option>
+
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <a class="btn app-btn-secondary" href="#">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                                            <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                                        </svg>
+                                        Download CSV
+                                    </a>
+                                </div>
                             </div><!--//row-->
                         </div><!--//table-utilities-->
                     </div><!--//col-auto-->
                 </div><!--//row-->
 
+
+                <nav id="orders-table-tab" class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4">
+                    <a class="flex-sm-fill text-sm-center nav-link active" id="orders-all-tab" data-bs-toggle="tab" href="#orders-all" role="tab" aria-controls="orders-all" aria-selected="true">All</a>
+                    <a class="flex-sm-fill text-sm-center nav-link" id="orders-paid-tab" data-bs-toggle="tab" href="#orders-paid" role="tab" aria-controls="orders-paid" aria-selected="false">Paid</a>
+                    <a class="flex-sm-fill text-sm-center nav-link" id="orders-pending-tab" data-bs-toggle="tab" href="#orders-pending" role="tab" aria-controls="orders-pending" aria-selected="false">Pending</a>
+                    <a class="flex-sm-fill text-sm-center nav-link" id="orders-cancelled-tab" data-bs-toggle="tab" href="#orders-cancelled" role="tab" aria-controls="orders-cancelled" aria-selected="false">Cancelled</a>
+                </nav>
 
 
                 <div class="tab-content" id="orders-table-tab-content">
@@ -45,7 +71,7 @@
                                     $sms = $_GET['sms'];
                                     if ($sms == 'registered') {
                                         echo "<div class='alert alert-danger'>Something went wrong, please try again</div>";
-                                        header('Refresh: 1; url=create.php');
+                                        echo "<meta http-equiv=\"refresh\" content=\"1;url=create.php\">";
                                     }
                                 }
 
@@ -55,35 +81,46 @@
                                         <thead>
                                             <tr>
                                                 <th class="cell">S.N</th>
-                                                <th class="cell"> Name</th>
                                                 <th class="cell">username</th>
-                                                <th class="cell">Email</th>
-                                                <th class="cell">Liscence No</th>
+                                                <th class="cell">Vehicle</th>
+                                                <th class="cell">image</th>
+                                                <th class="cell">reg. No.</th>
                                                 <th class="cell">Action</th>
-                                                <th class="cell"></th>
-                                                <th class="cell"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                             <?php
-                                            $sql = "SELECT * FROM users";
+                                            if (isset($_SESSION['username'])) {
+                                                // Retrieve the user_id from the session (or any other identifier)
+                                                $username = $_SESSION['username'];
+
+                                                $sql_check_user = "SELECT username FROM users WHERE username = '$username'";
+                                                $result_check_user = $conn->query($sql_check_user);
+
+                                                if ($result_check_user->num_rows > 0) {
+                                                    // User exists, fetch the user_id
+                                                    $row = $result_check_user->fetch_assoc();
+                                                    $username = $row['username'];
+                                                }
+                                            }
+
+                                            $sql = "SELECT * FROM cars WHERE user_id = $_SESSION[id]";
                                             $result = mysqli_query($conn, $sql);
                                             $i = 1;
                                             while ($user = mysqli_fetch_array($result)) {
                                             ?>
                                                 <tr>
                                                     <td class="cell"><?php echo $i++; ?></td>
-                                                    <td class="cell"><span class="truncate"><?php echo $user['name']; ?></span></td>
-                                                    <td class="cell"><?php echo $user['username']; ?></td>
-                                                    <td class="cell"><?php echo $user['email']; ?></td>
-                                                    <td class="cell"><?php echo $user['liscence_no']; ?></td>
+                                                    <td class="cell"><span class="truncate"><?php echo  $username ?></span></td>
+                                                    <td class="cell"><?php echo $user['vehicle_name']; ?></td>
+                                                    <td class="cell"><img src="<?php echo '../uploads/' . $user['image']; ?>" width="100" height="100" alt=""></td>
+                                                    <td class="cell"><?php echo $user['reg_no']; ?></td>
                                                     <td class="cell">
                                                         <a class="btn btn-primary text-white btn-sm " href="#" role="button"> Edit</a>
                                                         <a class="btn btn-info text-white btn-sm " href="#" role="button"> View</a>
-                                                        <a class="btn btn-danger text-white btn-sm " onclick="return confirm('Do you want to delete this user??')" href="delete.php?id=<?php  echo $user['id'];?>" role="button"> Delete</a>
+                                                        <a class="btn btn-danger text-white btn-sm " onclick="return confirm('Do you want to delete this car???')" href="delete.php?id=<?php echo $user['id'] ?>" role="button"> Delete</a>
                                                     </td>
-                                                    <td class="cell"><a class="btn-sm btn-secondary btn" href="#">Change</a></td>
                                                 </tr>
                                             <?php
                                             }

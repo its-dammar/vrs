@@ -35,15 +35,18 @@
 						$sms = $_GET['sms'];
 						if ($sms == 'registered') {
 							echo "<div class='alert alert-success'>You have registered successfully</div>";
-							header('Refresh: 2; url=index.php');
+							echo "<meta http-equiv=\"refresh\" content=\"1;url=index.php\">";
+
 						}
 						if ($sms == 'error') {
 							echo "<div class='alert alert-success'>Your username does not match</div>";
-							header('Refresh: 2; url=index.php');
+							echo "<meta http-equiv=\"refresh\" content=\"1;url=index.php\">";
+
 						}
 						if ($sms == 'pass_error') {
 							echo "<div class='alert alert-success'>Your Password does not match</div>";
-							header('Refresh: 2; url=index.php');
+							echo "<meta http-equiv=\"refresh\" content=\"1;url=index.php\">";
+
 						}
 					}
 

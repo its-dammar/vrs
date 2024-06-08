@@ -8,7 +8,7 @@ if (isset($_POST['register'])) {
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT); // Encrypt password
     $liscence_no = $_POST['liscence_no'];
 
-  if(empty($name) || empty($username) || empty($email) || empty($password) || empty($liscence_no)){
+  if($name != '' && $username != '' && $email != '' && $password != '' && $liscence_no != ''){
       // Check for duplicate username or email
       $check_sql = "SELECT * FROM users WHERE username='$username' OR email='$email' OR liscence_no='$liscence_no'";
       $check_result = $conn->query($check_sql);

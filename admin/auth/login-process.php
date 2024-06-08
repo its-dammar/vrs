@@ -13,10 +13,12 @@ if(isset($_POST['login'])){
         $row = $result->fetch_assoc();
         if(password_verify($password, $row['password'])){
             session_start();
+            $_SESSION['id'] = $row['id'];
             $_SESSION['username'] = $row['username'];
             $_SESSION['name'] = $row['name'];
             $_SESSION['email'] = $row['email'];
             $_SESSION['liscence_no'] = $row['liscence_no'];
+            $_SESSION['role'] = $row['role'];
             header('Refresh: 1; url=../dashboard.php?sms=success');
         }else{
             header('Refresh: 0; url=../index.php?sms=pass_error');
